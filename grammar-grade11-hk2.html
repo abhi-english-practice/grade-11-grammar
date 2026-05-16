@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ngữ Pháp Lớp 11 – Học Kỳ 2 | Chương Trình Mới</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --crimson:    #7B1A1A;
+    --crimson-dk: #4E0E0E;
+    --crimson-lt: #A52A2A;
+    --gold:       #E8B84B;
+    --gold-lt:    #F5D27A;
+    --gold-dk:    #B8882A;
+    --cream:      #FDF6E3;
+    --cream2:     #F7EDCE;
+    --ink:        #1C0A0A;
+    --shadow:     rgba(78,14,14,0.25);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--crimson-dk);
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(232,184,75,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(232,184,75,0.06) 0%, transparent 50%),
+      repeating-linear-gradient(
+        45deg,
+        transparent, transparent 40px,
+        rgba(232,184,75,0.03) 40px, rgba(232,184,75,0.03) 41px
+      );
+    min-height: 100vh;
+    font-family: 'Crimson Pro', Georgia, serif;
+    color: var(--ink);
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: linear-gradient(135deg, var(--crimson-dk) 0%, var(--crimson) 60%, var(--crimson-dk) 100%);
+    border-bottom: 3px solid var(--gold);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent, transparent 60px,
+      rgba(232,184,75,0.04) 60px, rgba(232,184,75,0.04) 61px
+    );
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 36px 24px 28px;
+    text-align: center;
+    position: relative;
+  }
+  .header-badge {
+    display: inline-block;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(232,184,75,0.5);
+    padding: 5px 18px;
+    margin-bottom: 14px;
+  }
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 900;
+    color: var(--cream);
+    line-height: 1.1;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  }
+  .header-title span { color: var(--gold); }
+  .header-sub {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: rgba(232,184,75,0.8);
+    margin-top: 10px;
+    text-transform: uppercase;
+  }
+  .gold-rule {
+    display: flex; align-items: center; gap: 12px;
+    margin: 18px auto 0; max-width: 380px;
+  }
+  .gold-rule::before, .gold-rule::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .gold-rule span { color: var(--gold); font-size: 16px; }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  /* ── NAV TABS ── */
+  .tab-nav {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 28px;
+  }
+  .tab-btn {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 9px 18px;
+    border: 1.5px solid var(--gold-dk);
+    background: transparent;
+    color: var(--gold-lt);
+    cursor: pointer;
+    transition: all .25s;
+  }
+  .tab-btn:hover { background: rgba(232,184,75,0.12); }
+  .tab-btn.active {
+    background: var(--gold);
+    color: var(--crimson-dk);
+    border-color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* ── SECTION CARD ── */
+  .section-panel { display: none; animation: fadeUp .4s ease; }
+  .section-panel.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .grammar-card {
+    background: var(--cream);
+    border-left: 5px solid var(--gold);
+    border-radius: 2px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    box-shadow: 4px 4px 0 var(--gold-dk), 0 8px 32px var(--shadow);
+    position: relative;
+  }
+  .grammar-card::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle at top right, rgba(232,184,75,0.12), transparent 70%);
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--crimson);
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 6px;
+  }
+  .card-title .icon {
+    width: 28px; height: 28px; background: var(--crimson);
+    color: var(--gold); display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-family: 'Josefin Sans', sans-serif; flex-shrink: 0;
+  }
+  .card-subtitle {
+    font-size: 13px; color: var(--gold-dk);
+    font-family: 'Josefin Sans', sans-serif; letter-spacing: 1px;
+    margin-bottom: 16px; text-transform: uppercase;
+  }
+  .card-body { font-size: 16.5px; line-height: 1.75; color: #2a1010; }
+  .card-body h4 {
+    font-family: 'Playfair Display', serif; font-size: 15px;
+    color: var(--crimson); margin: 14px 0 6px;
+  }
+  .card-body ul { padding-left: 20px; }
+  .card-body li { margin-bottom: 5px; }
+
+  /* formula box */
+  .formula {
+    background: linear-gradient(135deg, var(--crimson-dk), var(--crimson));
+    color: var(--gold-lt);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 14.5px; letter-spacing: .5px;
+    padding: 12px 20px;
+    border-radius: 2px;
+    margin: 12px 0;
+    border-left: 3px solid var(--gold);
+  }
+  .formula b { color: var(--gold); }
+
+  /* example box */
+  .examples {
+    background: var(--cream2);
+    border: 1px dashed var(--gold-dk);
+    padding: 12px 18px;
+    margin: 10px 0;
+    font-style: italic;
+    font-size: 15.5px;
+  }
+  .examples strong { color: var(--crimson); font-style: normal; }
+
+  /* note */
+  .note {
+    background: rgba(232,184,75,0.15);
+    border-left: 3px solid var(--gold);
+    padding: 10px 16px;
+    font-size: 14.5px;
+    margin: 10px 0;
+    color: var(--crimson-dk);
+  }
+
+  /* table */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 15px; }
+  th { background: var(--crimson); color: var(--gold-lt); padding: 8px 12px; text-align: left;
+       font-family: 'Josefin Sans', sans-serif; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; }
+  td { padding: 8px 12px; border-bottom: 1px solid rgba(184,136,42,0.25); }
+  tr:nth-child(even) td { background: rgba(232,184,75,0.07); }
+
+  /* ── QUIZ SECTION ── */
+  .quiz-intro {
+    background: var(--cream);
+    border: 2px solid var(--gold);
+    padding: 22px 28px;
+    margin-bottom: 24px;
+    text-align: center;
+    box-shadow: 0 6px 24px var(--shadow);
+  }
+  .quiz-intro h2 {
+    font-family: 'Playfair Display', serif; font-size: 24px;
+    color: var(--crimson); margin-bottom: 6px;
+  }
+  .quiz-intro p { font-size: 15px; color: #555; }
+
+  .quiz-container { display: flex; flex-direction: column; gap: 20px; }
+
+  .q-card {
+    background: var(--cream);
+    border-radius: 2px;
+    padding: 22px 26px;
+    box-shadow: 3px 3px 0 var(--gold-dk), 0 4px 18px var(--shadow);
+    border-top: 3px solid var(--crimson);
+    opacity: 0; transform: translateY(10px);
+    animation: fadeUp .4s ease forwards;
+  }
+  .q-card:nth-child(1)  { animation-delay: .05s }
+  .q-card:nth-child(2)  { animation-delay: .10s }
+  .q-card:nth-child(3)  { animation-delay: .15s }
+  .q-card:nth-child(4)  { animation-delay: .20s }
+  .q-card:nth-child(5)  { animation-delay: .25s }
+  .q-card:nth-child(6)  { animation-delay: .30s }
+  .q-card:nth-child(7)  { animation-delay: .35s }
+  .q-card:nth-child(8)  { animation-delay: .40s }
+  .q-card:nth-child(9)  { animation-delay: .45s }
+  .q-card:nth-child(10) { animation-delay: .50s }
+  .q-card:nth-child(11) { animation-delay: .55s }
+  .q-card:nth-child(12) { animation-delay: .60s }
+  .q-card:nth-child(13) { animation-delay: .65s }
+  .q-card:nth-child(14) { animation-delay: .70s }
+  .q-card:nth-child(15) { animation-delay: .75s }
+
+  .q-num {
+    font-family: 'Playfair Display', serif; font-size: 12px;
+    color: var(--gold-dk); letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .q-text {
+    font-size: 17px; font-weight: 600; color: var(--crimson-dk);
+    margin-bottom: 14px; line-height: 1.5;
+  }
+  .q-tag {
+    display: inline-block;
+    font-family: 'Josefin Sans', sans-serif; font-size: 10px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    background: var(--crimson); color: var(--gold-lt);
+    padding: 2px 8px; margin-bottom: 10px;
+  }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt-btn {
+    display: flex; align-items: center; gap: 12px;
+    background: white;
+    border: 1.5px solid rgba(184,136,42,0.3);
+    padding: 10px 16px;
+    cursor: pointer;
+    font-family: 'Crimson Pro', serif; font-size: 16px;
+    text-align: left;
+    transition: all .2s;
+    position: relative;
+  }
+  .opt-btn:hover:not(:disabled) {
+    border-color: var(--crimson);
+    background: rgba(123,26,26,0.05);
+  }
+  .opt-letter {
+    width: 24px; height: 24px;
+    border: 1.5px solid var(--gold-dk);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Josefin Sans', sans-serif; font-size: 11px; font-weight: 600;
+    color: var(--crimson); flex-shrink: 0;
+  }
+  .opt-btn.correct {
+    background: #e8f5e9; border-color: #2e7d32;
+    color: #1b5e20;
+  }
+  .opt-btn.correct .opt-letter { background: #2e7d32; color: white; border-color: #2e7d32; }
+  .opt-btn.wrong {
+    background: #fce4ec; border-color: #c62828;
+    color: #b71c1c;
+  }
+  .opt-btn.wrong .opt-letter { background: #c62828; color: white; border-color: #c62828; }
+  .opt-btn:disabled { cursor: default; }
+
+  .q-explain {
+    display: none; margin-top: 12px;
+    background: var(--crimson-dk); color: var(--gold-lt);
+    padding: 12px 16px; font-size: 15px; line-height: 1.6;
+    border-left: 3px solid var(--gold);
+  }
+  .q-explain.show { display: block; animation: fadeUp .3s ease; }
+  .q-explain b { color: var(--gold); }
+
+  /* score bar */
+  .score-bar {
+    display: none; background: var(--cream);
+    border: 2px solid var(--gold); padding: 24px 32px;
+    text-align: center; margin-top: 24px;
+    box-shadow: 4px 4px 0 var(--gold-dk);
+  }
+  .score-bar.show { display: block; animation: fadeUp .5s ease; }
+  .score-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px; font-weight: 900; color: var(--crimson);
+    line-height: 1;
+  }
+  .score-number span { font-size: 28px; color: var(--gold-dk); }
+  .score-msg {
+    font-size: 17px; color: #444; margin-top: 8px;
+    font-family: 'Crimson Pro', serif; font-style: italic;
+  }
+  .btn-reset {
+    margin-top: 16px;
+    background: var(--crimson); color: var(--gold-lt);
+    border: none; padding: 11px 32px;
+    font-family: 'Josefin Sans', sans-serif; font-size: 13px; letter-spacing: 2px;
+    text-transform: uppercase; cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-reset:hover { background: var(--crimson-lt); }
+
+  /* ── PROGRESS ── */
+  .quiz-progress {
+    font-family: 'Josefin Sans', sans-serif; font-size: 12px;
+    letter-spacing: 1px; color: var(--gold-lt);
+    text-align: right; margin-bottom: 8px;
+  }
+  .progress-bar-wrap { height: 4px; background: rgba(255,255,255,0.1); margin-bottom: 20px; }
+  .progress-bar-fill { height: 100%; background: var(--gold); width: 0%; transition: width .3s; }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    text-align: center;
+    padding: 20px;
+    font-family: 'Josefin Sans', sans-serif; font-size: 11px;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(232,184,75,0.5);
+    border-top: 1px solid rgba(232,184,75,0.2);
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-badge">Chương Trình Mới · Global Success</div>
+    <h1 class="header-title">Ngữ Pháp <span>Lớp 11</span><br>Học Kỳ II</h1>
+    <p class="header-sub">Grammar Review · Units 6 – 10 · Ôn Tập & Quiz Kiểm Tra</p>
+    <div class="gold-rule"><span>✦</span></div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- TAB NAV -->
+  <nav class="tab-nav" id="tabNav">
+    <button class="tab-btn active" data-tab="tab1">1 · Wish Sentences</button>
+    <button class="tab-btn" data-tab="tab2">2 · Conditionals III</button>
+    <button class="tab-btn" data-tab="tab3">3 · Relative Clauses Adv.</button>
+    <button class="tab-btn" data-tab="tab4">4 · Reported Speech</button>
+    <button class="tab-btn" data-tab="tab5">5 · Modal Verbs Perf.</button>
+    <button class="tab-btn" data-tab="tab6">6 · Inversion</button>
+    <button class="tab-btn active-quiz" data-tab="tabQuiz">🎯 Quiz Ôn Tập</button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 1: WISH SENTENCES
+  ═══════════════════════════════════════ -->
+  <div class="section-panel active" id="tab1">
+    <div class="grammar-card">
+      <div class="card-title"><div class="icon">1</div>Wish Sentences – Câu Ước</div>
+      <div class="card-subtitle">Unit 6 · Wishes & Regrets</div>
+      <div class="card-body">
+        <h4>▸ Wish + Past Simple (Hiện tại không có thật)</h4>
+        <div class="formula">S + <b>wish(es)</b> + S + V<sub>past</sub> / were ...</div>
+        <div class="examples">
+          <strong>→</strong> I wish I <strong>knew</strong> the answer. <em>(Thực tế: I don't know)</em><br>
+          <strong>→</strong> She wishes she <strong>were</strong> taller.
+        </div>
+        <div class="note">⚠ Dùng <b>were</b> (không phải was) cho tất cả ngôi trong văn viết trang trọng.</div>
+
+        <h4>▸ Wish + Past Perfect (Quá khứ hối tiếc)</h4>
+        <div class="formula">S + <b>wish(ed)</b> + S + <b>had</b> + V<sub>p.p</sub> ...</div>
+        <div class="examples">
+          <strong>→</strong> I wish I <strong>had studied</strong> harder. <em>(Thực tế: Tôi đã không học chăm)</em><br>
+          <strong>→</strong> They wish they <strong>hadn't missed</strong> the train.
+        </div>
+
+        <h4>▸ Wish + Would (Ao ước tương lai / chỉ trích)</h4>
+        <div class="formula">S + <b>wish(es)</b> + S + <b>would</b> + V<sub>bare</sub></div>
+        <div class="examples">
+          <strong>→</strong> I wish it <strong>would stop</strong> raining.<br>
+          <strong>→</strong> I wish you <strong>wouldn't talk</strong> so loudly.
+        </div>
+        <div class="note">⚠ Không dùng <i>wish ... would</i> khi chủ ngữ hai vế giống nhau: ✗ <i>I wish I would...</i></div>
+
+        <h4>▸ So sánh nhanh: If only = Wish (mạnh hơn, cảm xúc hơn)</h4>
+        <div class="examples">
+          <strong>If only</strong> he <strong>had listened</strong> to me! ≈ I wish he had listened.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 2: CONDITIONAL III
+  ═══════════════════════════════════════ -->
+  <div class="section-panel" id="tab2">
+    <div class="grammar-card">
+      <div class="card-title"><div class="icon">2</div>Conditional Type III – Điều Kiện Loại 3</div>
+      <div class="card-subtitle">Unit 7 · Hypothetical Past</div>
+      <div class="card-body">
+        <h4>▸ Công thức</h4>
+        <div class="formula">If + S + <b>had</b> + V<sub>p.p</sub> ..., S + <b>would/could/might have</b> + V<sub>p.p</sub></div>
+        <div class="examples">
+          <strong>→</strong> If she <strong>had left</strong> earlier, she <strong>would have caught</strong> the bus.<br>
+          <strong>→</strong> If they <strong>hadn't wasted</strong> time, they <strong>could have finished</strong> the project.
+        </div>
+
+        <h4>▸ Đảo ngữ (Inversion) – dạng trang trọng</h4>
+        <div class="formula"><b>Had</b> + S + V<sub>p.p</sub> ..., S + would have + V<sub>p.p</sub></div>
+        <div class="examples">
+          <strong>→</strong> <strong>Had she studied</strong> harder, she would have passed.
+        </div>
+
+        <h4>▸ Câu hỗn hợp (Mixed Conditional)</h4>
+        <table>
+          <tr><th>Loại</th><th>If-clause</th><th>Main clause</th><th>Ý nghĩa</th></tr>
+          <tr><td>III → II</td><td>If + had + p.p</td><td>would + V<sub>bare</sub></td><td>Quá khứ → ảnh hưởng hiện tại</td></tr>
+          <tr><td>II → III</td><td>If + V<sub>past</sub></td><td>would have + p.p</td><td>Tính chất hiện tại → quá khứ</td></tr>
+        </table>
+        <div class="examples">
+          <strong>→</strong> If I <strong>had taken</strong> that job, I <strong>would be</strong> rich now.<br>
+          <strong>→</strong> If she <strong>were</strong> more careful, she <strong>wouldn't have made</strong> that mistake.
+        </div>
+
+        <h4>▸ Unless / But for / Without trong điều kiện</h4>
+        <div class="examples">
+          <strong>But for</strong> your help, I <strong>would have failed</strong>. (= If it hadn't been for your help...)<br>
+          <strong>Without</strong> his advice, she <strong>might have made</strong> a terrible decision.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 3: RELATIVE CLAUSES ADVANCED
+  ═══════════════════════════════════════ -->
+  <div class="section-panel" id="tab3">
+    <div class="grammar-card">
+      <div class="card-title"><div class="icon">3</div>Relative Clauses – Nâng Cao</div>
+      <div class="card-subtitle">Unit 8 · Defining & Non-defining</div>
+      <div class="card-body">
+        <h4>▸ Rút gọn mệnh đề quan hệ</h4>
+        <table>
+          <tr><th>Loại</th><th>Cách rút gọn</th><th>Ví dụ</th></tr>
+          <tr><td>Active (chủ động)</td><td>Bỏ who/which + đổi V → V-ing</td><td>The man <b>talking</b> to her is my teacher.</td></tr>
+          <tr><td>Passive (bị động)</td><td>Bỏ who/which was/were + dùng V<sub>p.p</sub></td><td>The book <b>written</b> by Tolkien is famous.</td></tr>
+          <tr><td>Be + adj/noun</td><td>Bỏ who is / which is</td><td>The girl <b>in red</b> is my sister.</td></tr>
+        </table>
+
+        <h4>▸ Relative Adverbs: where / when / why</h4>
+        <div class="examples">
+          This is the school <strong>where</strong> I studied. (= at which)<br>
+          That was the year <strong>when</strong> I graduated. (= in which)<br>
+          I know the reason <strong>why</strong> she left. (= for which)
+        </div>
+
+        <h4>▸ What / Which (mệnh đề quan hệ bổ nghĩa cả câu)</h4>
+        <div class="examples">
+          She passed the exam, <strong>which</strong> surprised everyone. <em>(= cả sự việc đó)</em><br>
+          <strong>What</strong> he said shocked us all. <em>(= điều mà)</em>
+        </div>
+        <div class="note">⚠ <b>What</b> không bao giờ đứng sau danh từ. <b>Which</b> (non-defining) có thể thay thế cả mệnh đề.</div>
+
+        <h4>▸ Lưu ý: Defining vs Non-defining</h4>
+        <div class="examples">
+          The student <strong>who studies hard</strong> will pass. <em>(defining – không dấu phẩy)</em><br>
+          My brother, <strong>who lives in Hanoi</strong>, is a doctor. <em>(non-defining – có dấu phẩy)</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 4: REPORTED SPEECH
+  ═══════════════════════════════════════ -->
+  <div class="section-panel" id="tab4">
+    <div class="grammar-card">
+      <div class="card-title"><div class="icon">4</div>Reported Speech – Câu Tường Thuật</div>
+      <div class="card-subtitle">Unit 8–9 · Statements, Questions & Commands</div>
+      <div class="card-body">
+        <h4>▸ Lùi thì (Backshift)</h4>
+        <table>
+          <tr><th>Direct</th><th>Reported</th></tr>
+          <tr><td>Present Simple</td><td>Past Simple</td></tr>
+          <tr><td>Present Continuous</td><td>Past Continuous</td></tr>
+          <tr><td>Present Perfect</td><td>Past Perfect</td></tr>
+          <tr><td>Past Simple</td><td>Past Perfect</td></tr>
+          <tr><td>will</td><td>would</td></tr>
+          <tr><td>can</td><td>could</td></tr>
+          <tr><td>may</td><td>might</td></tr>
+        </table>
+
+        <h4>▸ Biến đổi trạng từ</h4>
+        <table>
+          <tr><th>Direct</th><th>Reported</th></tr>
+          <tr><td>now</td><td>then</td></tr>
+          <tr><td>today</td><td>that day</td></tr>
+          <tr><td>yesterday</td><td>the day before / the previous day</td></tr>
+          <tr><td>tomorrow</td><td>the next day / the following day</td></tr>
+          <tr><td>here</td><td>there</td></tr>
+          <tr><td>this/these</td><td>that/those</td></tr>
+        </table>
+
+        <h4>▸ Reported Questions</h4>
+        <div class="formula">S + asked + (O) + <b>wh-word / if / whether</b> + S + V (trật tự bình thường)</div>
+        <div class="examples">
+          "Where do you live?" → She asked me <strong>where I lived</strong>.<br>
+          "Are you happy?" → He wanted to know <strong>if/whether I was happy</strong>.
+        </div>
+
+        <h4>▸ Reported Commands & Requests</h4>
+        <div class="formula">S + told/ordered/asked + O + <b>(not) to</b> + V</div>
+        <div class="examples">
+          "Don't touch that!" → He told me <strong>not to touch that</strong>.<br>
+          "Please help me." → She asked him <strong>to help her</strong>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 5: MODAL VERBS PERFECT
+  ═══════════════════════════════════════ -->
+  <div class="section-panel" id="tab5">
+    <div class="grammar-card">
+      <div class="card-title"><div class="icon">5</div>Modal Verbs + Perfect Infinitive</div>
+      <div class="card-subtitle">Unit 9–10 · Deduction, Regret & Criticism</div>
+      <div class="card-body">
+        <table>
+          <tr><th>Cấu trúc</th><th>Ý nghĩa</th><th>Ví dụ</th></tr>
+          <tr>
+            <td><b>must have + p.p</b></td>
+            <td>Khẳng định chắc chắn (quá khứ)</td>
+            <td>She <b>must have left</b> early. (chắc chắn đã đi)</td>
+          </tr>
+          <tr>
+            <td><b>can't/couldn't have + p.p</b></td>
+            <td>Phủ định chắc chắn</td>
+            <td>He <b>can't have stolen</b> it.</td>
+          </tr>
+          <tr>
+            <td><b>may/might have + p.p</b></td>
+            <td>Có thể đã... (không chắc)</td>
+            <td>They <b>might have missed</b> the bus.</td>
+          </tr>
+          <tr>
+            <td><b>should have + p.p</b></td>
+            <td>Đáng lẽ phải làm (tiếc nuối)</td>
+            <td>You <b>should have called</b> me.</td>
+          </tr>
+          <tr>
+            <td><b>shouldn't have + p.p</b></td>
+            <td>Đáng lẽ không nên làm</td>
+            <td>She <b>shouldn't have said</b> that.</td>
+          </tr>
+          <tr>
+            <td><b>needn't have + p.p</b></td>
+            <td>Không cần làm nhưng đã làm</td>
+            <td>You <b>needn't have cooked</b> – we ordered food.</td>
+          </tr>
+          <tr>
+            <td><b>could have + p.p</b></td>
+            <td>Có thể đã làm (nhưng không làm)</td>
+            <td>He <b>could have won</b> if he'd tried harder.</td>
+          </tr>
+        </table>
+
+        <div class="note">
+          💡 <b>must have</b> = strong positive deduction<br>
+          <b>can't have</b> = strong negative deduction<br>
+          <b>should have</b> = criticism / regret
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 6: INVERSION
+  ═══════════════════════════════════════ -->
+  <div class="section-panel" id="tab6">
+    <div class="grammar-card">
+      <div class="card-title"><div class="icon">6</div>Inversion – Đảo Ngữ</div>
+      <div class="card-subtitle">Unit 10 · Emphasis & Formal Style</div>
+      <div class="card-body">
+        <h4>▸ Đảo ngữ với trạng từ phủ định</h4>
+        <table>
+          <tr><th>Cụm từ</th><th>Nghĩa</th><th>Ví dụ</th></tr>
+          <tr><td>Never</td><td>Chưa bao giờ</td><td><b>Never have I</b> seen such beauty.</td></tr>
+          <tr><td>Rarely / Seldom</td><td>Hiếm khi</td><td><b>Rarely does he</b> complain.</td></tr>
+          <tr><td>Hardly / Scarcely ... when</td><td>Vừa mới ... thì</td><td><b>Hardly had I arrived</b> when it rained.</td></tr>
+          <tr><td>No sooner ... than</td><td>Vừa ... đã</td><td><b>No sooner had she left</b> than he called.</td></tr>
+          <tr><td>Not only ... but also</td><td>Không chỉ ... mà còn</td><td><b>Not only did he lie</b>, but he also stole.</td></tr>
+          <tr><td>Only when / if / after</td><td>Chỉ khi</td><td><b>Only when</b> he arrived <b>did</b> we start.</td></tr>
+          <tr><td>Under no circumstances</td><td>Trong mọi trường hợp đều không</td><td><b>Under no circumstances should</b> you lie.</td></tr>
+        </table>
+
+        <h4>▸ Đảo ngữ với So/Neither/Nor</h4>
+        <div class="formula"><b>So + aux + S</b> (đồng ý khẳng định) &nbsp;|&nbsp; <b>Neither/Nor + aux + S</b> (đồng ý phủ định)</div>
+        <div class="examples">
+          "I love coffee." → "<strong>So do I</strong>."<br>
+          "She can't swim." → "<strong>Neither can he</strong>."
+        </div>
+
+        <h4>▸ Đảo ngữ trong điều kiện (Conditional)</h4>
+        <div class="examples">
+          <strong>Were I</strong> you, I would apologise. (= If I were you)<br>
+          <strong>Had she known</strong>, she would have helped. (= If she had known)<br>
+          <strong>Should you need</strong> help, call me. (= If you should need)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       QUIZ PANEL
+  ═══════════════════════════════════════ -->
+  <div class="section-panel" id="tabQuiz">
+    <div class="quiz-intro">
+      <h2>🎯 Quiz Ôn Tập Tổng Hợp</h2>
+      <p>15 câu trắc nghiệm · Nhấn vào đáp án để xem giải thích chi tiết</p>
+    </div>
+
+    <div class="quiz-progress" id="quizProgress">0 / 15 đã trả lời</div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+    <div class="score-bar" id="scoreBar">
+      <div class="score-number" id="scoreNum">0 <span>/ 15</span></div>
+      <div class="score-msg" id="scoreMsg"></div>
+      <button class="btn-reset" onclick="resetQuiz()">↺ Làm Lại</button>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<footer class="site-footer">
+  Ngữ Pháp Lớp 11 · HK2 · Chương Trình Mới – Global Success &nbsp;✦&nbsp; Ôn Tập Hiệu Quả
+</footer>
+
+<script>
+// ── TAB SWITCHING ──
+document.getElementById('tabNav').addEventListener('click', e => {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(btn.dataset.tab).classList.add('active');
+});
+
+// ── QUIZ DATA ──
+const questions = [
+  {
+    tag: "Wish Sentences",
+    q: "I wish I ______ harder when I was at school.",
+    opts: ["study","studied","had studied","would study"],
+    ans: 2,
+    exp: "<b>had studied</b> — Wish + Past Perfect diễn tả sự hối tiếc về quá khứ. Thực tế: bạn đã không học chăm."
+  },
+  {
+    tag: "Wish Sentences",
+    q: "She wishes her brother ______ so much noise at night.",
+    opts: ["doesn't make","didn't make","won't make","wouldn't make"],
+    ans: 3,
+    exp: "<b>wouldn't make</b> — Wish + would/wouldn't diễn tả ao ước về hành vi của người khác (chỉ trích nhẹ)."
+  },
+  {
+    tag: "Conditional III",
+    q: "If they ______ enough money, they would have bought that house.",
+    opts: ["had","have had","had had","would have"],
+    ans: 2,
+    exp: "<b>had had</b> — Conditional Type 3: If + had + p.p. Động từ 'have' ở dạng quá khứ hoàn thành = had had."
+  },
+  {
+    tag: "Conditional III",
+    q: "______ she studied harder, she might have passed the exam.",
+    opts: ["If","Had","Did","Should"],
+    ans: 1,
+    exp: "<b>Had</b> — Đảo ngữ của Conditional III: Had + S + p.p = If S had + p.p. Dạng trang trọng, hay gặp trong bài thi."
+  },
+  {
+    tag: "Conditional III",
+    q: "But for your timely advice, I ______ a serious mistake.",
+    opts: ["would make","make","would have made","had made"],
+    ans: 2,
+    exp: "<b>would have made</b> — 'But for' = 'If it hadn't been for' → mệnh đề chính dùng would have + p.p (Conditional III)."
+  },
+  {
+    tag: "Relative Clauses",
+    q: "The students ______ in the library are preparing for their exams.",
+    opts: ["who studying","studied","studying","whom study"],
+    ans: 2,
+    exp: "<b>studying</b> — Rút gọn mệnh đề quan hệ chủ động: bỏ 'who are' và giữ V-ing. (who are studying → studying)"
+  },
+  {
+    tag: "Relative Clauses",
+    q: "He passed all his exams, ______ made his parents very proud.",
+    opts: ["that","who","what","which"],
+    ans: 3,
+    exp: "<b>which</b> — Mệnh đề quan hệ non-defining bổ nghĩa cho cả mệnh đề trước (không phải danh từ cụ thể) → dùng 'which', không dùng 'that' hay 'what'."
+  },
+  {
+    tag: "Reported Speech",
+    q: "\"I will call you tomorrow,\" he said. → He said that he ______ the following day.",
+    opts: ["will call me","would call me","would have called me","called me"],
+    ans: 1,
+    exp: "<b>would call me</b> — Lùi thì: will → would; tomorrow → the following day; you → me. Đây là câu tường thuật cơ bản."
+  },
+  {
+    tag: "Reported Speech",
+    q: "\"Have you finished your homework?\" the teacher asked Tom. → The teacher asked Tom ______.",
+    opts: ["did he finish his homework","if he had finished his homework","whether had he finished his homework","had he finished his homework"],
+    ans: 1,
+    exp: "<b>if he had finished his homework</b> — Reported yes/no question: asked + if/whether + S + V (trật tự bình thường). Lùi thì: have finished → had finished."
+  },
+  {
+    tag: "Modal Verbs Perfect",
+    q: "She looks exhausted. She ______ all night.",
+    opts: ["must work","must have worked","should have worked","could work"],
+    ans: 1,
+    exp: "<b>must have worked</b> — 'must have + p.p' diễn tả suy luận chắc chắn về quá khứ dựa trên bằng chứng hiện tại (she looks exhausted)."
+  },
+  {
+    tag: "Modal Verbs Perfect",
+    q: "You ______ her feelings like that. It was very rude!",
+    opts: ["shouldn't hurt","needn't have hurt","shouldn't have hurt","mustn't hurt"],
+    ans: 2,
+    exp: "<b>shouldn't have hurt</b> — 'shouldn't have + p.p' diễn tả phê bình / tiếc nuối về hành động trong quá khứ (đáng lẽ không nên làm nhưng đã làm)."
+  },
+  {
+    tag: "Modal Verbs Perfect",
+    q: "I brought my umbrella but it didn't rain. I ______ it.",
+    opts: ["needn't have brought","mustn't have brought","shouldn't bring","couldn't have brought"],
+    ans: 0,
+    exp: "<b>needn't have brought</b> — 'needn't have + p.p' = không cần làm nhưng đã làm. Tôi đã mang ô (nhưng thực ra không cần thiết)."
+  },
+  {
+    tag: "Inversion",
+    q: "______ had I arrived at the station when the train left.",
+    opts: ["Hardly","Rarely","Never","Seldom"],
+    ans: 0,
+    exp: "<b>Hardly</b> — Cấu trúc: Hardly had S + p.p when S + past simple (Vừa mới... thì...). 'No sooner ... than' có nghĩa tương tự."
+  },
+  {
+    tag: "Inversion",
+    q: "Not only ______ late, but she also forgot her report.",
+    opts: ["she was","was she","she had been","had she been"],
+    ans: 1,
+    exp: "<b>was she</b> — Đảo ngữ với 'Not only': Not only + aux/be + S + ... Vì vế đầu chia ở thì quá khứ đơn và không có trợ động từ → dùng 'did': Not only was she late (be-verb đảo lên)."
+  },
+  {
+    tag: "Mixed",
+    q: "If I ______ you, I would have apologised immediately.",
+    opts: ["am","were","had been","would be"],
+    ans: 2,
+    exp: "<b>had been</b> — Mixed Conditional (III → II ngược): If clause dùng Past Perfect (had been) → main clause dùng would + bare infinitive. Ý: nếu lúc đó tôi là bạn, tôi đã xin lỗi ngay."
+  }
+];
+
+let answered = 0;
+let score = 0;
+const totalQ = questions.length;
+
+function buildQuiz() {
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+  answered = 0; score = 0;
+  updateProgress();
+
+  questions.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.innerHTML = `
+      <div class="q-num">Câu ${i+1} / ${totalQ}</div>
+      <div class="q-tag">${q.tag}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options" id="opts${i}">
+        ${q.opts.map((o,j) => `
+          <button class="opt-btn" data-q="${i}" data-idx="${j}" onclick="answer(this,${i},${j})">
+            <span class="opt-letter">${'ABCD'[j]}</span>
+            <span>${o}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="q-explain" id="exp${i}">${q.exp}</div>
+    `;
+    container.appendChild(card);
+  });
+  document.getElementById('scoreBar').classList.remove('show');
+}
+
+function answer(btn, qIdx, optIdx) {
+  const q = questions[qIdx];
+  const allBtns = document.querySelectorAll(`#opts${qIdx} .opt-btn`);
+  allBtns.forEach(b => b.disabled = true);
+
+  if (optIdx === q.ans) {
+    btn.classList.add('correct');
+    score++;
+  } else {
+    btn.classList.add('wrong');
+    allBtns[q.ans].classList.add('correct');
+  }
+  document.getElementById(`exp${qIdx}`).classList.add('show');
+  answered++;
+  updateProgress();
+
+  if (answered === totalQ) showScore();
+}
+
+function updateProgress() {
+  document.getElementById('quizProgress').textContent = `${answered} / ${totalQ} đã trả lời`;
+  document.getElementById('progressFill').style.width = `${(answered/totalQ)*100}%`;
+}
+
+function showScore() {
+  const bar = document.getElementById('scoreBar');
+  document.getElementById('scoreNum').innerHTML = `${score} <span>/ ${totalQ}</span>`;
+  const pct = score / totalQ;
+  let msg = '';
+  if (pct >= 0.93) msg = '🏆 Xuất sắc! Em nắm vững ngữ pháp lớp 11 HK2!';
+  else if (pct >= 0.73) msg = '✨ Tốt lắm! Ôn thêm vài điểm nữa là hoàn hảo.';
+  else if (pct >= 0.53) msg = '📚 Cần ôn thêm — quay lại lý thuyết rồi thử lại nhé!';
+  else msg = '💪 Hãy xem lại từng phần lý thuyết trước khi làm quiz nhé!';
+  document.getElementById('scoreMsg').textContent = msg;
+  bar.classList.add('show');
+  bar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function resetQuiz() {
+  buildQuiz();
+  document.getElementById('quizContainer').scrollIntoView({ behavior: 'smooth' });
+}
+
+buildQuiz();
+</script>
+</body>
+</html>
